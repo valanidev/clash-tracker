@@ -2,11 +2,21 @@ import z from 'zod'
 
 export const signUpSchema = z
   .object({
+    username: z
+      .string()
+      .min(3, { message: 'Username must be at least 3 characters long.' })
+      .max(16, { message: 'Username must be at most 16 characters long.' })
+      .regex(/^[A-Za-z]/, {
+        message: 'Username must start with a letter.',
+      })
+      .regex(/^[A-Za-z0-9_]+$/, {
+        message:
+          'Username must contain only alphanumeric characters and underscores.',
+      }),
     email: z.email().nonempty({ message: 'A valid email address is required' }),
-
     password: z
       .string()
-      .min(8, { message: 'Password must be at least 8 characters long' })
+      .min(6, { message: 'Password must be at least 8 characters long' })
       .regex(/[A-Z]/, {
         message: 'Password must contain at least one uppercase letter',
       })
@@ -18,7 +28,6 @@ export const signUpSchema = z
         message:
           'Password must contain at least one special character (e.g., !@#$%)',
       }),
-
     confirmPassword: z
       .string()
       .nonempty({ message: 'Password confirmation is required' }),
