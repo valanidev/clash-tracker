@@ -5,12 +5,32 @@ import { signInSchema, signUpSchema } from './schemas/authSchema'
 import { eq } from 'drizzle-orm'
 import { UserTable } from '@/drizzle/schema'
 import { db } from '@/drizzle/db'
-import { generateSalt, hashPassword } from './utils'
+import { comparePasswords, generateSalt, hashPassword } from './core/utils'
+import createUserSession from './core/session'
+import { cookies } from 'next/headers'
 
 export const signIn = async (unsafeData: z.infer<typeof signInSchema>) => {
-  const data = signInSchema.safeParse(unsafeData)
-  console.log('Sign in...', data)
-  alert('Sign in user!')
+  const { success, data } = signInSchema.safeParse(unsafeData)
+  if (!success) return 'Unable to log you in'
+
+  const user = await db.query.UserTable.findFirst({
+    columns: { password: true, salt: true, id: true, email: true, role: true },
+    where: eq(UserTable.email, data.email),
+  })
+
+  if (user == null || user.password == null || user.salt == null) {
+    return 'Unable to log you in'
+  }
+
+  const isCorrectPassword = await comparePasswords({
+    hashedPassword: user.password,
+    password: data.password,
+    salt: user.salt,
+  })
+
+  if (!isCorrectPassword) return 'Unable to log you in'
+
+  console.log('Log In Success!')
 }
 
 export const signUp = async (unsafeData: z.infer<typeof signUpSchema>) => {
@@ -31,19 +51,26 @@ export const signUp = async (unsafeData: z.infer<typeof signUpSchema>) => {
 
   if (data.password != data.confirmPassword) return 'Passwords do not match'
 
-  const salt = generateSalt()
-  const hashedPassword = await hashPassword(data.password, salt)
+  try {
+    const salt = generateSalt()
+    const hashedPassword = await hashPassword(data.password, salt)
 
-  const [user] = await db
-    .insert(UserTable)
-    .values({
-      username: data.username,
-      email: data.email,
-      password: hashedPassword,
-      salt,
-    })
-    .returning({ id: UserTable.id, role: UserTable.role })
+    const [user] = await db
+      .insert(UserTable)
+      .values({
+        username: data.username,
+        email: data.email,
+        password: hashedPassword,
+        salt,
+      })
+      .returning({ id: UserTable.id, role: UserTable.role })
 
-  if (user == null)
-    return 'There was an error while creating your account... Try again.'
+    if (user == null)
+      return 'There was an error while creating your account... Try again.'
+
+    const sessionId = await createUserSession(user, await cookies())
+    console.log(sessionId)
+  } catch {
+    return 'Unable to create your account'
+  }
 }

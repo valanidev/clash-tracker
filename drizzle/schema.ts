@@ -17,3 +17,12 @@ export const UserTable = pgTable('users', {
     .defaultNow()
     .$onUpdate(() => new Date()),
 })
+
+export const SessionTable = pgTable('sessions', {
+  id: text().primaryKey(),
+  userId: uuid()
+    .notNull()
+    .references(() => UserTable.id, { onDelete: 'cascade' }),
+  createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
+  expiresAt: timestamp({ withTimezone: true }).notNull(),
+})

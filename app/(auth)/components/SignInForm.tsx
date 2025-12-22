@@ -8,10 +8,14 @@ import { Field, FieldError, FieldGroup } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { signIn } from '../actions'
+import { useState } from 'react'
+import { redirect } from 'next/navigation'
 
 type SignInFormData = z.infer<typeof signInSchema>
 
 const SignInForm = () => {
+  const [error, setError] = useState<string | null>(null)
+
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -22,7 +26,10 @@ const SignInForm = () => {
   })
 
   const onSubmit = async (data: SignInFormData) => {
-    await signIn(data)
+    const res = await signIn(data)
+    // if (res == null) redirect('/')
+    // else setError(res)
+    if (res != null) setError(res)
   }
 
   return (
@@ -60,6 +67,7 @@ const SignInForm = () => {
           )}
         />
         <Button type="submit">Submit</Button>
+        {error && <p className="text-red-400">{error}</p>}
       </FieldGroup>
     </form>
   )
