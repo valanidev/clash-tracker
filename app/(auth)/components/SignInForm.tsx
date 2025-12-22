@@ -7,9 +7,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Field, FieldError, FieldGroup } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { signIn } from '../actions'
+import { signIn } from '../core/actions'
 import { useState } from 'react'
-import { redirect } from 'next/navigation'
 
 type SignInFormData = z.infer<typeof signInSchema>
 

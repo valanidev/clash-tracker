@@ -1,6 +1,13 @@
 import Link from 'next/link'
+import { getCurrentUser } from './(auth)/core/currentUser'
 
-const IndexPage = () => {
+const IndexPage = async () => {
+  const user = await getCurrentUser()
+
+  if (user) {
+    return <h1>Hello, user {user.id}</h1>
+  }
+
   return (
     <h1>
       Hi, you can{' '}

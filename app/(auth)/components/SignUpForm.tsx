@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Field, FieldError, FieldGroup } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { signUp } from '../actions'
+import { signUp } from '../core/actions'
 import { redirect } from 'next/navigation'
 import { useState } from 'react'
 

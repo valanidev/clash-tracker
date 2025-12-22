@@ -1,13 +1,14 @@
 'use server'
 
 import z from 'zod'
-import { signInSchema, signUpSchema } from './schemas/authSchema'
+import { signInSchema, signUpSchema } from '../schemas/authSchema'
 import { eq } from 'drizzle-orm'
 import { UserTable } from '@/drizzle/schema'
 import { db } from '@/drizzle/db'
-import { comparePasswords, generateSalt, hashPassword } from './core/utils'
-import createUserSession from './core/session'
+import { comparePasswords, generateSalt, hashPassword } from './utils'
 import { cookies } from 'next/headers'
+import { createUserSession } from './session'
+import { redirect } from 'next/navigation'
 
 export const signIn = async (unsafeData: z.infer<typeof signInSchema>) => {
   const { success, data } = signInSchema.safeParse(unsafeData)
@@ -30,7 +31,9 @@ export const signIn = async (unsafeData: z.infer<typeof signInSchema>) => {
 
   if (!isCorrectPassword) return 'Unable to log you in'
 
-  console.log('Log In Success!')
+  await createUserSession(user, await cookies())
+
+  redirect('/')
 }
 
 export const signUp = async (unsafeData: z.infer<typeof signUpSchema>) => {
@@ -68,8 +71,7 @@ export const signUp = async (unsafeData: z.infer<typeof signUpSchema>) => {
     if (user == null)
       return 'There was an error while creating your account... Try again.'
 
-    const sessionId = await createUserSession(user, await cookies())
-    console.log(sessionId)
+    await createUserSession(user, await cookies())
   } catch {
     return 'Unable to create your account'
   }

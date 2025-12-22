@@ -1,54 +1,10 @@
-import { SessionTable, userRoles } from '@/drizzle/schema'
+import { SessionTable, userRoles, UserTable } from '@/drizzle/schema'
 import z from 'zod'
 import crypto from 'crypto'
 import { db } from '@/drizzle/db'
+import { eq } from 'drizzle-orm'
 
-/* 
-
-import { userRoles } from "@/drizzle/schema"
-import { z } from "zod"
-import crypto from "crypto"
-import { redisClient } from "@/redis/redis"
-
-// Seven days in seconds
-const SESSION_EXPIRATION_SECONDS = 60 * 60 * 24 * 7
-const COOKIE_SESSION_KEY = "session-id"
-
-const sessionSchema = z.object({
-  id: z.string(),
-  role: z.enum(userRoles),
-})
-
-type UserSession = z.infer<typeof sessionSchema>
-export type Cookies = {
-  set: (
-    key: string,
-    value: string,
-    options: {
-      secure?: boolean
-      httpOnly?: boolean
-      sameSite?: "strict" | "lax"
-      expires?: number
-    }
-  ) => void
-  get: (key: string) => { name: string; value: string } | undefined
-  delete: (key: string) => void
-}
-
-export async function createUserSession(
-  user: UserSession,
-  cookies: Pick<Cookies, "set">
-) {
-  const sessionId = crypto.randomBytes(512).toString("hex").normalize()
-  await redisClient.set(`session:${sessionId}`, sessionSchema.parse(user), {
-    ex: SESSION_EXPIRATION_SECONDS,
-  })
-
-  setCookie(sessionId, cookies)
-}
-
-*/
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const sessionSchema = z.object({
   id: z.string(),
   role: z.enum(userRoles),
@@ -74,7 +30,7 @@ export type Cookies = {
   delete: (key: string) => void
 }
 
-function setCookie(sessionId: string, cookies: Pick<Cookies, 'set'>) {
+const setCookie = (sessionId: string, cookies: Pick<Cookies, 'set'>) => {
   cookies.set(COOKIE_SESSION_KEY, sessionId, {
     secure: true,
     httpOnly: true,
@@ -101,4 +57,25 @@ export const createUserSession = async (
   return sessionId
 }
 
-export default createUserSession
+export const getUserFromSession = (cookies: Pick<Cookies, 'get'>) => {
+  const sessionId = cookies.get(COOKIE_SESSION_KEY)?.value
+  if (sessionId == null) return null
+
+  return getUserSessionById(sessionId)
+}
+
+const getUserSessionById = async (sessionId: string) => {
+  const sessionData = await db.query.SessionTable.findFirst({
+    where: eq(SessionTable.id, sessionId),
+  })
+
+  if (sessionData == null) return null
+
+  const userData = await db.query.UserTable.findFirst({
+    where: eq(UserTable.id, sessionData.userId),
+  })
+
+  const { success, data: user } = sessionSchema.safeParse(userData)
+
+  return success ? user : null
+}
