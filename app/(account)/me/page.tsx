@@ -2,6 +2,9 @@ import { getCurrentUser } from '@/app/(auth)/core/currentUser'
 
 const AccountPage = async () => {
   const user = await getCurrentUser({ withFullUser: true })
+
+  if (user == null) throw new Error('User not authenticated') // Should never happen, middleware is taking care of this
+
   return (
     <div>
       <ul>
