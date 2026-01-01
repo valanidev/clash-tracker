@@ -4,7 +4,6 @@ import crypto from 'crypto'
 import { db } from '@/drizzle/db'
 import { eq } from 'drizzle-orm'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const sessionSchema = z.object({
   id: z.string(),
   role: z.enum(userRoles),
@@ -12,8 +11,7 @@ const sessionSchema = z.object({
 
 type UserSession = z.infer<typeof sessionSchema>
 
-// const SESSION_EXPIRATION_SECONDS = 60 * 60 * 24 * 7
-const SESSION_EXPIRATION_SECONDS = 5
+const SESSION_EXPIRATION_SECONDS = 60 * 60 * 24 * 7
 const COOKIE_SESSION_KEY = 'tracker-session-id'
 
 export type Cookies = {
