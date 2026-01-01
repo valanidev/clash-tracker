@@ -1,11 +1,16 @@
 import Link from 'next/link'
 import { getCurrentUser } from './(auth)/core/currentUser'
+import SignOutButton from './(auth)/components/SignOutButton'
 
 const IndexPage = async () => {
   const user = await getCurrentUser()
 
   if (user) {
-    return <h1>Hello, user {user.id}</h1>
+    return (
+      <h1>
+        Hello, user {user.id} you can now <SignOutButton />
+      </h1>
+    )
   }
 
   return (

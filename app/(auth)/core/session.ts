@@ -12,7 +12,8 @@ const sessionSchema = z.object({
 
 type UserSession = z.infer<typeof sessionSchema>
 
-const SESSION_EXPIRATION_SECONDS = 60 * 60 * 24 * 7
+// const SESSION_EXPIRATION_SECONDS = 60 * 60 * 24 * 7
+const SESSION_EXPIRATION_SECONDS = 5
 const COOKIE_SESSION_KEY = 'tracker-session-id'
 
 export type Cookies = {
@@ -55,6 +56,16 @@ export const createUserSession = async (
   setCookie(sessionId, cookies)
 
   return sessionId
+}
+
+export const removeUserFromSession = async (
+  cookies: Pick<Cookies, 'get' | 'delete'>,
+) => {
+  const sessionId = cookies.get(COOKIE_SESSION_KEY)?.value
+  if (sessionId == null) return null
+
+  await db.delete(SessionTable).where(eq(SessionTable.id, sessionId))
+  cookies.delete(COOKIE_SESSION_KEY)
 }
 
 export const getUserFromSession = (cookies: Pick<Cookies, 'get'>) => {

@@ -7,7 +7,7 @@ import { UserTable } from '@/drizzle/schema'
 import { db } from '@/drizzle/db'
 import { comparePasswords, generateSalt, hashPassword } from './utils'
 import { cookies } from 'next/headers'
-import { createUserSession } from './session'
+import { createUserSession, removeUserFromSession } from './session'
 import { redirect } from 'next/navigation'
 
 export const signIn = async (unsafeData: z.infer<typeof signInSchema>) => {
@@ -75,4 +75,9 @@ export const signUp = async (unsafeData: z.infer<typeof signUpSchema>) => {
   } catch {
     return 'Unable to create your account'
   }
+}
+
+export const signOut = async () => {
+  await removeUserFromSession(await cookies())
+  redirect('/')
 }
