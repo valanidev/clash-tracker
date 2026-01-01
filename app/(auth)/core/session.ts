@@ -88,3 +88,23 @@ const getUserSessionById = async (sessionId: string) => {
 
   return success ? user : null
 }
+
+export const updateUserSessionExpiration = async (
+  cookies: Pick<Cookies, 'get' | 'set'>,
+) => {
+  const sessionId = cookies.get(COOKIE_SESSION_KEY)?.value
+  if (sessionId == null) return null
+
+  const user = await getUserSessionById(sessionId)
+  if (user == null) return
+
+  // Update from db
+  const expiresAt = new Date(Date.now() + SESSION_EXPIRATION_SECONDS * 1000)
+  await db
+    .update(SessionTable)
+    .set({
+      expiresAt,
+    })
+    .where(eq(SessionTable.id, sessionId))
+  setCookie(sessionId, cookies)
+}

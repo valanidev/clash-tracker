@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getUserFromSession } from './app/(auth)/core/session'
+import {
+  getUserFromSession,
+  updateUserSessionExpiration,
+} from './app/(auth)/core/session'
 
 const privateRoutes = ['/me']
 const adminRoutes = ['/admin']
@@ -7,6 +10,13 @@ const authRoutes = ['/signin', '/signup']
 
 export const proxy = async (request: NextRequest) => {
   const response = (await proxyAuth(request)) ?? NextResponse.next()
+
+  await updateUserSessionExpiration({
+    get: (key) => request.cookies.get(key),
+    set: (key, value, options) =>
+      response.cookies.set({ name: key, value, ...options }),
+  })
+
   return response
 }
 
