@@ -3,12 +3,12 @@ import { getCurrentUser } from './(auth)/core/currentUser'
 import SignOutButton from './(auth)/components/SignOutButton'
 
 const IndexPage = async () => {
-  const user = await getCurrentUser()
+  const user = await getCurrentUser({ withFullUser: true })
 
   if (user) {
     return (
       <h1>
-        Hello, user {user.id} you can now <SignOutButton />
+        Hello, {user.username} you can now <SignOutButton />
       </h1>
     )
   }

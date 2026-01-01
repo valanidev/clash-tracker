@@ -33,7 +33,7 @@ export const signIn = async (unsafeData: z.infer<typeof signInSchema>) => {
 
   await createUserSession(user, await cookies())
 
-  redirect('/')
+  redirect('/me')
 }
 
 export const signUp = async (unsafeData: z.infer<typeof signUpSchema>) => {
@@ -75,6 +75,8 @@ export const signUp = async (unsafeData: z.infer<typeof signUpSchema>) => {
   } catch {
     return 'Unable to create your account'
   }
+
+  redirect('/me')
 }
 
 export const signOut = async () => {

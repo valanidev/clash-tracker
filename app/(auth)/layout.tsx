@@ -2,7 +2,7 @@ import Carousel from './components/Carousel'
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex min-h-dvh items-center justify-center bg-linear-to-br from-[#011027] to-[#003c51]">
+    <div className="absolute inset-0 flex min-h-dvh items-center justify-center bg-linear-to-br from-[#011027] to-[#003c51]">
       <div className="absolute inset-x-4 inset-y-8 mx-auto flex min-h-96 max-w-5xl min-w-11/12 rounded-lg bg-[#141418] p-4 text-white sm:inset-x-16 sm:inset-y-20 sm:min-w-1/2 md:inset-x-30 md:inset-y-32 lg:inset-x-44 xl:inset-x-64">
         <div className="relative hidden w-1/2 overflow-hidden rounded-tl-lg rounded-bl-lg lg:block">
           <Carousel />

@@ -38,7 +38,7 @@ export const signUpSchema = z
   })
 
 export const signInSchema = z.object({
-  email: z.email(),
+  email: z.email().nonempty({ message: 'Please fill in the email field' }),
   password: z
     .string()
     .nonempty({ message: 'Please fill in the password field' }),

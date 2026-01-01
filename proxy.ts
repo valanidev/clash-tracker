@@ -3,6 +3,7 @@ import { getUserFromSession } from './app/(auth)/core/session'
 
 const privateRoutes = ['/me']
 const adminRoutes = ['/admin']
+const authRoutes = ['/signin', '/signup']
 
 export const proxy = async (request: NextRequest) => {
   const response = (await proxyAuth(request)) ?? NextResponse.next()
@@ -24,6 +25,13 @@ const proxyAuth = async (request: NextRequest) => {
     }
 
     if (user.role !== 'admin') {
+      return NextResponse.redirect(new URL('/', request.url))
+    }
+  }
+
+  if (authRoutes.includes(request.nextUrl.pathname)) {
+    const user = await getUserFromSession(request.cookies)
+    if (user != null) {
       return NextResponse.redirect(new URL('/', request.url))
     }
   }
