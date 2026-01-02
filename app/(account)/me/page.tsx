@@ -1,4 +1,5 @@
 import { getCurrentUser } from '@/app/(auth)/core/currentUser'
+import AddVillageButton from './components/AddVillageBtn'
 
 const AccountPage = async () => {
   const user = await getCurrentUser({ withFullUser: true })
@@ -25,6 +26,7 @@ const AccountPage = async () => {
           {user.role}
         </li>
       </ul>
+      <AddVillageButton />
     </div>
   )
 }

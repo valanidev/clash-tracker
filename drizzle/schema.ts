@@ -26,3 +26,11 @@ export const SessionTable = pgTable('sessions', {
   createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
   expiresAt: timestamp({ withTimezone: true }).notNull(),
 })
+
+export const VillageTable = pgTable('villages', {
+  id: uuid().primaryKey().defaultRandom(),
+  userId: uuid()
+    .notNull()
+    .references(() => UserTable.id, { onDelete: 'cascade' }),
+  tag: text().notNull(),
+})
