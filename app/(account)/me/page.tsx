@@ -1,6 +1,5 @@
 import { getCurrentUser } from '@/app/(auth)/core/currentUser'
-import AddVillageButton from './components/AddVillageBtn'
-import { getVillages } from './actions'
+import { getVillages } from '../actions'
 
 const AccountPage = async () => {
   const user = await getCurrentUser({ withFullUser: true })
@@ -28,13 +27,14 @@ const AccountPage = async () => {
           {user.role}
         </li>
       </ul>
-      <AddVillageButton />
 
-      {villages.map((village) => (
-        <div key={village.id}>
-          <h2>Village: {village.tag}</h2>
-        </div>
-      ))}
+      <div className="mt-2 flex flex-col flex-wrap gap-2 rounded-lg bg-white/5 p-2">
+        {villages.map((village) => (
+          <div key={village.id}>
+            <h2>Village: #{village.tag}</h2>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
