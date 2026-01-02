@@ -1,8 +1,10 @@
 import { getCurrentUser } from '@/app/(auth)/core/currentUser'
 import AddVillageButton from './components/AddVillageBtn'
+import { getVillages } from './actions'
 
 const AccountPage = async () => {
   const user = await getCurrentUser({ withFullUser: true })
+  const villages = await getVillages()
 
   if (user == null) throw new Error('User not authenticated') // Should never happen, middleware is taking care of this
 
@@ -27,6 +29,12 @@ const AccountPage = async () => {
         </li>
       </ul>
       <AddVillageButton />
+
+      {villages.map((village) => (
+        <div key={village.id}>
+          <h2>Village: {village.tag}</h2>
+        </div>
+      ))}
     </div>
   )
 }
