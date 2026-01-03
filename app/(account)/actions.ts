@@ -49,7 +49,7 @@ export const getVillages = async () => {
 
 export const getVillage = async (
   tag: string,
-): Promise<ActionResult<unknown>> => {
+): Promise<ActionResult<ClashData>> => {
   const user = await getCurrentUser({ redirectIfNotFound: true })
 
   const village = await db
@@ -66,6 +66,6 @@ export const getVillage = async (
 
   return {
     success: true,
-    data: village[0].payload,
+    data: village[0].payload as ClashData,
   }
 }
