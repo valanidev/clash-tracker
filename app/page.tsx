@@ -8,7 +8,10 @@ const IndexPage = async () => {
   if (user) {
     return (
       <h1>
-        Hello, {user.username} you can now <SignOutButton />
+        Hello, {user.username} you can now <SignOutButton /> or{' '}
+        <Link href="/me" className="font-semibold text-blue-500 underline">
+          check your account
+        </Link>
       </h1>
     )
   }
