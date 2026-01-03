@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { addVillage } from '../../actions'
 import { ActionResult } from '@/types/utils'
 import ActionMessage from '@/components/ui/ActionMessage'
+import Link from 'next/link'
 
 const isDataValid = (data: string) => {
   if (!data) return false
@@ -37,6 +38,7 @@ const ClipboardReader = () => {
   const [result, setResult] = useState<ActionResult | null>(null)
 
   const handlePaste = async () => {
+    setResult(null)
     setError(null)
     setLoading(true)
 
@@ -60,7 +62,7 @@ const ClipboardReader = () => {
 
   const handleUpload = async (data: ClashData) => {
     setLoading(true)
-    const res = await addVillage(data.tag)
+    const res = await addVillage(data)
     setResult(res)
     setLoading(false)
   }
@@ -86,6 +88,14 @@ const ClipboardReader = () => {
             {loading ? 'Loading...' : 'Add this village'}
           </button>
           {result && <ActionMessage actionResult={result} />}
+          {result && result.success && (
+            <Link
+              href={`/tracker/${data.tag.replace('#', '')}`}
+              className="font-semibold text-blue-500 underline"
+            >
+              view village
+            </Link>
+          )}
           <pre className="mt-2 rounded-lg bg-white/5 p-2">
             {JSON.stringify(data, null, 2)}
           </pre>

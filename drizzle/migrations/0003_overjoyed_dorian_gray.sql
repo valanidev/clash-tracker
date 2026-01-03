@@ -1,0 +1,1 @@
+ALTER TABLE "villages" ADD COLUMN "createdAt" timestamp with time zone DEFAULT now() NOT NULL;

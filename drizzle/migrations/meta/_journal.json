@@ -15,6 +15,27 @@
       "when": 1767376533308,
       "tag": "0001_violet_gamora",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1767439407017,
+      "tag": "0002_worthless_lockheed",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1767439539236,
+      "tag": "0003_overjoyed_dorian_gray",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1767439715506,
+      "tag": "0004_sour_gladiator",
+      "breakpoints": true
     }
   ]
 }

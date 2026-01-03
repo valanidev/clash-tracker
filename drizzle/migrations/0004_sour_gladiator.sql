@@ -1,0 +1,1 @@
+ALTER TABLE "villages" ALTER COLUMN "payload" DROP DEFAULT;

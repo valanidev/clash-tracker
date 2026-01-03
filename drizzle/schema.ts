@@ -1,4 +1,11 @@
-import { pgEnum, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
+import {
+  jsonb,
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+} from 'drizzle-orm/pg-core'
 
 export const userRoles = ['admin', 'user'] as const
 export type UserRole = (typeof userRoles)[number]
@@ -33,4 +40,6 @@ export const VillageTable = pgTable('villages', {
     .notNull()
     .references(() => UserTable.id, { onDelete: 'cascade' }),
   tag: text().notNull(),
+  payload: jsonb().notNull(),
+  createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
 })
