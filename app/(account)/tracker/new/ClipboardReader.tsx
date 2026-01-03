@@ -59,8 +59,10 @@ const ClipboardReader = () => {
   }
 
   const handleUpload = async (data: ClashData) => {
+    setLoading(true)
     const res = await addVillage(data.tag)
     setResult(res)
+    setLoading(false)
   }
 
   return (
@@ -78,9 +80,10 @@ const ClipboardReader = () => {
           <h2 className="mt-2 font-semibold">Your tag: {data.tag} </h2>
           <button
             onClick={() => handleUpload(data)}
-            className="rounded-xl bg-lime-700 px-4 py-2 text-white hover:bg-lime-800"
+            className="rounded-xl bg-lime-700 px-4 py-2 text-white hover:bg-lime-800 disabled:bg-lime-900"
+            disabled={loading}
           >
-            Add this village
+            {loading ? 'Loading...' : 'Add this village'}
           </button>
           {result && <ActionMessage actionResult={result} />}
           <pre className="mt-2 rounded-lg bg-white/5 p-2">
