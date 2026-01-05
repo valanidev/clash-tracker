@@ -5,7 +5,7 @@ import { db } from '@/drizzle/db'
 import { VillageTable } from '@/drizzle/schema'
 import { ClashData } from '@/types/clash'
 import { ActionResult } from '@/types/utils'
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 
 export const addVillage = async (data: ClashData): Promise<ActionResult> => {
   const user = await getCurrentUser({ redirectIfNotFound: true })
@@ -15,7 +15,7 @@ export const addVillage = async (data: ClashData): Promise<ActionResult> => {
   const alreadyExists = await db
     .select()
     .from(VillageTable)
-    .where(eq(VillageTable.userId, user.id) && eq(VillageTable.tag, tag))
+    .where(and(eq(VillageTable.userId, user.id), eq(VillageTable.tag, tag)))
     .limit(1)
   if (alreadyExists.length > 0) {
     return {
@@ -55,7 +55,9 @@ export const getVillage = async (
   const village = await db
     .select()
     .from(VillageTable)
-    .where(eq(VillageTable.userId, user.id) && eq(VillageTable.tag, '#' + tag))
+    .where(
+      and(eq(VillageTable.userId, user.id), eq(VillageTable.tag, '#' + tag)),
+    )
 
   if (village.length == 0) {
     return {

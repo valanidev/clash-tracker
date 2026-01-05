@@ -37,6 +37,7 @@ const AccountPage = async () => {
       </Link>
 
       <div className="mt-2 flex flex-col flex-wrap gap-2 rounded-lg bg-white/5 p-2">
+        {villages.length === 0 && <p>No villages to show...</p>}
         {villages.map((village) => (
           <div key={village.id} className="flex gap-2">
             <h2>Village: {village.tag}</h2>
