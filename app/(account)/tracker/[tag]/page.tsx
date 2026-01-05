@@ -1,10 +1,7 @@
 import ActionMessage from '@/components/ui/ActionMessage'
 import { getVillage } from '../../actions'
-import { PlayerApiData } from '@/types/clash'
-
-type TrackerPageProps = {
-  params: Promise<{ tag: string }>
-}
+import { ClashData, PlayerApiData } from '@/types/clash'
+import TrackerUserData from '@/components/TrackerUserData'
 
 const getPlayer = async (
   tag: string,
@@ -33,10 +30,15 @@ const getPlayer = async (
   return { data, error, status }
 }
 
-const TrackerPage = async ({ params }: TrackerPageProps) => {
+const TrackerPage = async ({
+  params,
+}: {
+  params: Promise<{ tag: string }>
+}) => {
   const { tag } = await params
   const village = await getVillage(tag)
 
+  // If the village is not found, send the error message to the user
   if (!village.success) {
     return (
       <div className="text-center text-2xl">
@@ -45,39 +47,7 @@ const TrackerPage = async ({ params }: TrackerPageProps) => {
     )
   }
 
-  const villageData = village.data
-
-  if (villageData == null) {
-    return (
-      <div className="text-center text-2xl">
-        <ActionMessage
-          actionResult={{ success: false, message: 'Nothing found...' }}
-        />
-      </div>
-    )
-  }
-
-  const { data, error } = await getPlayer(tag)
-
-  if (error) {
-    return (
-      <div className="text-center text-2xl">
-        <ActionMessage
-          actionResult={{ success: false, message: error.message }}
-        />
-      </div>
-    )
-  }
-
-  if (data == null) return
-
-  return (
-    <div>
-      <h1>
-        Track #{tag} ({data.name})
-      </h1>
-    </div>
-  )
+  return <TrackerUserData />
 }
 
 export default TrackerPage

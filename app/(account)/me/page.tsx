@@ -23,10 +23,6 @@ const AccountPage = async () => {
           <span className="font-semibold">Username: </span>
           {user.username}
         </li>
-        <li>
-          <span className="font-semibold">Role: </span>
-          {user.role}
-        </li>
       </ul>
 
       <Link
@@ -36,7 +32,7 @@ const AccountPage = async () => {
         Add Village
       </Link>
 
-      <div className="mt-2 flex flex-col flex-wrap gap-2 rounded-lg bg-white/5 p-2">
+      <div className="mt-2 flex flex-col flex-wrap gap-2 rounded-lg border border-white/10 bg-white/5 p-2">
         {villages.length === 0 && <p>No villages to show...</p>}
         {villages.map((village) => (
           <div key={village.id} className="flex gap-2">

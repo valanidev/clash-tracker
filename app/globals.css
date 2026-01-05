@@ -141,10 +141,21 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  h1 {
+    @apply text-4xl font-semibold;
+  }
+  h2 {
+    @apply text-2xl;
+  }
 }
 
 @layer utilities {
   .container {
     @apply mx-auto max-w-7xl px-4;
+  }
+
+  .box {
+    @apply rounded-xl border border-white/10 bg-white/5 p-4;
   }
 }

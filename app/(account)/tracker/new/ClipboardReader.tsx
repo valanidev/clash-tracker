@@ -70,7 +70,7 @@ const ClipboardReader = () => {
   return (
     <div>
       <button
-        className="rounded-lg bg-gray-800 p-2"
+        className="rounded-lg border border-white/10 bg-white/5 p-2"
         onClick={handlePaste}
         disabled={loading}
       >
