@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Carousel from './components/Carousel'
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
@@ -9,6 +10,9 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
         <div className="w-full rounded-tr-lg rounded-br-lg p-4 lg:w-1/2">
           <div>{children}</div>
+          <div className="mt-2 text-center">
+            <Link href="/">Go back to home</Link>
+          </div>
         </div>
       </div>
     </div>

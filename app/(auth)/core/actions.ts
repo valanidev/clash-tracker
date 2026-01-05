@@ -81,5 +81,5 @@ export const signUp = async (unsafeData: z.infer<typeof signUpSchema>) => {
 
 export const signOut = async () => {
   await removeUserFromSession(await cookies())
-  redirect('/')
+  // redirect('/')
 }
