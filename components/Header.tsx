@@ -11,7 +11,9 @@ const Header = async () => {
       <div className="container flex items-center justify-between py-4">
         <Link href="/">Clash Tracker</Link>
         <nav className="flex items-center gap-4">
-          <Link href="/">Home</Link>
+          <Link href="/" className="hidden sm:inline">
+            Home
+          </Link>
           {user === null ? (
             <>
               <Link href="/signin">Sign In</Link>
