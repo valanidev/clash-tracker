@@ -3,7 +3,7 @@
 import { getCurrentUser } from '@/app/(auth)/core/currentUser'
 import { db } from '@/drizzle/db'
 import { VillageTable } from '@/drizzle/schema'
-import { ClashData } from '@/types/clash'
+import { ClashData, PlayerApiData } from '@/types/clash'
 import { ActionResult } from '@/types/utils'
 import { and, eq } from 'drizzle-orm'
 
@@ -70,4 +70,31 @@ export const getVillage = async (
     success: true,
     data: village[0].payload as ClashData,
   }
+}
+
+export const getPlayerFromApi = async (
+  tag: string,
+): Promise<{
+  data: PlayerApiData | null
+  error: { status: number; message: string } | null
+  status: number
+}> => {
+  const base = 'http://localhost:3000'
+  const response = await fetch(`${base}/api/player/${tag}`)
+
+  let data = null
+  let error = null
+  const status = response.status
+
+  if (!response.ok) {
+    const errorData = await response.json()
+    error = {
+      status,
+      message: errorData.message || 'Error fetching player data',
+    }
+  } else {
+    data = await response.json()
+  }
+
+  return { data, error, status }
 }
