@@ -69,11 +69,7 @@ const ClipboardReader = () => {
 
   return (
     <div>
-      <button
-        className="rounded-lg border border-white/10 bg-white/5 p-2"
-        onClick={handlePaste}
-        disabled={loading}
-      >
+      <button className="box p-2" onClick={handlePaste} disabled={loading}>
         Paste JSON from clipboard...
       </button>
       {error && <div className="mt-2 text-red-500">{error}</div>}

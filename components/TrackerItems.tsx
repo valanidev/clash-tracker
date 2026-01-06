@@ -36,7 +36,17 @@ const TrackerItems = ({ items }: { items: UserData['items'] }) => {
 
   const categoriesToRender = activeCategory
     ? ITEM_CATEGORIES.filter((c) => c.key === activeCategory)
-    : ITEM_CATEGORIES
+    : null
+
+  if (categoriesToRender == null) {
+    return (
+      <section>
+        <h2 className="mb-2 text-lg font-semibold">
+          Statistics will show soon.
+        </h2>
+      </section>
+    )
+  }
 
   return (
     <>
