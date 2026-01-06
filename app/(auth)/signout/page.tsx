@@ -8,13 +8,23 @@ const LogoutPage = () => {
   const router = useRouter()
 
   useEffect(() => {
+    let isMounted = true
+    let to: ReturnType<typeof setTimeout>
+
     const run = async () => {
       await signOut()
-      setTimeout(() => {
-        router.replace('/')
+      to = setTimeout(() => {
+        if (isMounted) {
+          router.replace('/')
+        }
       }, 5000)
     }
     run()
+
+    return () => {
+      isMounted = false
+      if (to) clearTimeout(to)
+    }
   }, [router])
 
   return (
