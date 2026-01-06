@@ -139,3 +139,27 @@ export type Unit = {
 export type Hero = Unit & {
   equipment?: HeroEquipment[]
 }
+
+// My Data Storage
+export type UserData = {
+  username: string
+  items: {
+    homeDefenses: Item[]
+    homeTraps: Item[]
+    homeWalls: Item[]
+    homeArmy: Item[]
+    homeResources: Item[]
+    homeTroops: Item[]
+    homeDarkTroops: Item[]
+    homeSpells: Item[]
+    homeSiegeMachines: Item[]
+    homeHeroes: Item[]
+    homePets: Item[]
+  }
+}
+
+export type Item = {
+  id: number
+  count: number
+  levels: number[]
+}

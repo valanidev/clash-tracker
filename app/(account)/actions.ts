@@ -3,15 +3,17 @@
 import { getCurrentUser } from '@/app/(auth)/core/currentUser'
 import { db } from '@/drizzle/db'
 import { VillageTable } from '@/drizzle/schema'
-import { ClashData, PlayerApiData } from '@/types/clash'
+import { ClashData, PlayerApiData, UserData } from '@/types/clash'
 import { ActionResult } from '@/types/utils'
 import { and, eq } from 'drizzle-orm'
 
-export const addVillage = async (data: ClashData): Promise<ActionResult> => {
+export const addVillage = async (
+  clashData: ClashData,
+): Promise<ActionResult> => {
   const user = await getCurrentUser({ redirectIfNotFound: true })
+  const tag = clashData.tag
 
-  const tag = data.tag
-
+  // Check if the user already owns this village
   const alreadyExists = await db
     .select()
     .from(VillageTable)
@@ -24,10 +26,37 @@ export const addVillage = async (data: ClashData): Promise<ActionResult> => {
     }
   }
 
+  // If not, we can request the coc API to get required data
+  const { data: playerApiData, error } = await getPlayerFromApi(tag)
+  if (error) {
+    return {
+      success: false,
+      message: error.message,
+    }
+  }
+
+  const userData: UserData = {
+    username: playerApiData!.name,
+    items: {
+      homeDefenses: [],
+      homeTraps: [],
+      homeWalls: [],
+      homeArmy: [{ id: 1000001, count: 1, levels: [17] }],
+      homeResources: [],
+      homeTroops: [],
+      homeDarkTroops: [],
+      homeSpells: [],
+      homeSiegeMachines: [],
+      homeHeroes: [],
+      homePets: [],
+    },
+  }
+
+  // For now, register empty data
   await db.insert(VillageTable).values({
     userId: user.id,
     tag,
-    payload: data,
+    payload: JSON.stringify(userData),
   })
 
   return {
@@ -49,7 +78,7 @@ export const getVillages = async () => {
 
 export const getVillage = async (
   tag: string,
-): Promise<ActionResult<ClashData>> => {
+): Promise<ActionResult<UserData>> => {
   const user = await getCurrentUser({ redirectIfNotFound: true })
 
   const village = await db
@@ -68,7 +97,7 @@ export const getVillage = async (
 
   return {
     success: true,
-    data: village[0].payload as ClashData,
+    data: village[0].payload as UserData,
   }
 }
 
@@ -79,6 +108,8 @@ export const getPlayerFromApi = async (
   error: { status: number; message: string } | null
   status: number
 }> => {
+  tag = tag.replace('#', '').trim()
+
   const base = 'http://localhost:3000'
   const response = await fetch(`${base}/api/player/${tag}`)
 

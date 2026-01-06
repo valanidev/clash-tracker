@@ -1,6 +1,6 @@
 import ActionMessage from '@/components/ui/ActionMessage'
 import { getVillage } from '../../actions'
-import { ClashData } from '@/types/clash'
+import { UserData } from '@/types/clash'
 import TrackerUserData from '@/components/TrackerUserData'
 
 const TrackerPage = async ({
@@ -20,9 +20,9 @@ const TrackerPage = async ({
     )
   }
 
-  const villageData = village.data as ClashData
+  const data = village.data as UserData
 
-  return <TrackerUserData data={villageData} />
+  return <TrackerUserData data={data} tag={tag} />
 }
 
 export default TrackerPage

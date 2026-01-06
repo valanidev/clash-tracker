@@ -4,7 +4,7 @@ import {
   updateUserSessionExpiration,
 } from './app/(auth)/core/session'
 
-const privateRoutes = ['/me']
+const privateRoutes = ['/me', '/tracker', '/tracker/new']
 const authRoutes = ['/signin', '/signup']
 
 export const proxy = async (request: NextRequest) => {
