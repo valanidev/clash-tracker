@@ -13,7 +13,7 @@ export const signUpSchema = z
         message:
           'Username must contain only alphanumeric characters and underscores.',
       }),
-    email: z.email().nonempty({ message: 'A valid email address is required' }),
+    email: z.email(),
     password: z
       .string()
       .min(6, { message: 'Password must be at least 8 characters long' })
@@ -38,7 +38,7 @@ export const signUpSchema = z
   })
 
 export const signInSchema = z.object({
-  email: z.email().nonempty({ message: 'Please fill in the email field' }),
+  email: z.email(),
   password: z
     .string()
     .nonempty({ message: 'Please fill in the password field' }),

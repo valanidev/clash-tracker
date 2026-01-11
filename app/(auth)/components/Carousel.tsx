@@ -32,7 +32,6 @@ export default function Carousel({
   return (
     <div className="h-full w-full">
       <div className="relative h-full w-full overflow-hidden">
-        {/* Track */}
         <div
           className="flex h-full transition-transform duration-500 ease-in-out"
           style={{
@@ -67,7 +66,6 @@ export default function Carousel({
 
         <button
           onClick={prev}
-          aria-label="Précédent"
           className="absolute top-1/2 left-3 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white"
         >
           ‹
@@ -75,7 +73,6 @@ export default function Carousel({
 
         <button
           onClick={next}
-          aria-label="Suivant"
           className="absolute top-1/2 right-3 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white"
         >
           ›
@@ -86,7 +83,6 @@ export default function Carousel({
             <button
               key={i}
               onClick={() => setIndex(i)}
-              aria-label={`Aller à ${i + 1}`}
               className={`h-2 w-8 rounded-full transition-colors duration-200 ${i === index ? 'bg-white' : 'bg-white/50'}`}
             />
           ))}
