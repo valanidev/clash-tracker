@@ -1,52 +1,44 @@
 import { getCurrentUser } from '@/app/(auth)/core/currentUser'
-import { getVillages } from '../actions'
-import Link from 'next/link'
+import LinkButton from '../components/LinkButton'
+import { Plus, Trash } from 'lucide-react'
+import VillagesViewer from '../components/VillagesViewer'
 
 const AccountPage = async () => {
-  const user = await getCurrentUser({ withFullUser: true })
-  const villages = await getVillages()
-
-  if (user == null) throw new Error('User not authenticated') // Should never happen, middleware is taking care of this
+  const user = await getCurrentUser({
+    redirectIfNotFound: true,
+    withFullUser: true,
+  })
 
   return (
-    <div>
-      <ul>
-        <li>
-          <span className="font-semibold">ID: </span>
-          {user.id}
-        </li>
-        <li>
-          <span className="font-semibold">Email: </span>
-          {user.email}
-        </li>
-        <li>
-          <span className="font-semibold">Username: </span>
-          {user.username}
-        </li>
-      </ul>
+    <main className="box p-4">
+      <h1 className="mb-4 border-b pb-4 font-semibold">My Account</h1>
+      <h2>
+        Logged in as <span className="font-semibold">{user.username}</span>{' '}
+        <span className="text-sm">({user.email})</span>
+      </h2>
 
-      <Link
-        href="/tracker/new"
-        className="font-semibold text-blue-500 underline"
-      >
-        Add Village
-      </Link>
-
-      <div className="box mt-2 flex flex-col flex-wrap gap-2 p-2">
-        {villages.length === 0 && <p>No villages to show...</p>}
-        {villages.map((village) => (
-          <div key={village.id} className="flex gap-2">
-            <h2>Village: {village.tag}</h2>
-            <Link
-              href={`/tracker/${village.tag.replace('#', '')}`}
-              className="font-semibold text-blue-500 underline"
-            >
-              view
-            </Link>
-          </div>
-        ))}
+      <div className="mt-4 flex w-full flex-col gap-2 md:flex-row">
+        <LinkButton
+          target="/tracker/new"
+          text="Add a new village"
+          icon={<Plus />}
+          className="md:w-1/2"
+          type="success"
+        />
+        <LinkButton
+          target="/tracker/remove"
+          text="Remove a village"
+          icon={<Trash />}
+          className="md:w-1/2"
+          type="danger"
+        />
       </div>
-    </div>
+
+      <div className="box mt-4 flex flex-col gap-4 p-4">
+        <h1>Villages</h1>
+        <VillagesViewer />
+      </div>
+    </main>
   )
 }
 
