@@ -25,6 +25,7 @@ export const BARRACKS_UNLOCKS: Record<string, number> = {
   'Electro Titan': 16,
   'Root Rider': 17,
   Thrower: 18,
+  'Meteor Golem': 19,
 }
 export const DARK_BARRACKS_UNLOCKS: Record<string, number> = {
   Minion: 1,
@@ -60,6 +61,7 @@ export const DARK_SPELL_FACTORY_UNLOCKS: Record<string, number> = {
   'Bat Spell': 5,
   'Overgrowth Spell': 6,
   'Ice Block Spell': 7,
+  'Totem Spell': 8,
 }
 export const WORKSHOP_UNLOCKS: Record<string, number> = {
   'Wall Wrecker': 1,

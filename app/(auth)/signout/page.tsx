@@ -7,6 +7,7 @@ import { signOut } from '../core/actions'
 const LogoutPage = () => {
   const router = useRouter()
 
+  const redirectTimer = 5
   useEffect(() => {
     let isMounted = true
     let to: ReturnType<typeof setTimeout>
@@ -17,7 +18,7 @@ const LogoutPage = () => {
         if (isMounted) {
           router.replace('/')
         }
-      }, 5000)
+      }, redirectTimer * 1000)
     }
     run()
 
@@ -30,7 +31,7 @@ const LogoutPage = () => {
   return (
     <div className="text-center">
       <h1 className="text-2xl font-semibold">You are being disconnected</h1>
-      <p>You will be redirected to the home page in 5 seconds.</p>
+      <p>You will be redirected to the home page in {redirectTimer} seconds.</p>
     </div>
   )
 }

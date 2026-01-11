@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { signIn } from '../core/actions'
 import { useState } from 'react'
+import AlertMessage from '@/components/AlertMessage'
 
 type SignInFormData = z.infer<typeof signInSchema>
 
@@ -66,7 +67,8 @@ const SignInForm = () => {
           )}
         />
         <Button type="submit">Submit</Button>
-        {error && <p className="text-red-400">{error}</p>}
+
+        {error && <AlertMessage type="error" message={error} />}
       </FieldGroup>
     </form>
   )

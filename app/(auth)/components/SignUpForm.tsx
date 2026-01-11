@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import { signUp } from '../core/actions'
 import { redirect } from 'next/navigation'
 import { useState } from 'react'
+import AlertMessage from '@/components/AlertMessage'
 
 type SignUpFormData = z.infer<typeof signUpSchema>
 
@@ -99,7 +100,7 @@ const SignUpForm = () => {
           )}
         />
         <Button type="submit">Submit</Button>
-        {error && <p className="text-red-400">{error}</p>}
+        {error && <AlertMessage type="error" message={error} />}
       </FieldGroup>
     </form>
   )

@@ -162,4 +162,8 @@
   .tracker-nav-link {
     @apply border-white/10 p-2 not-last:border-b first:rounded-tl-lg first:rounded-tr-lg last:rounded-br-lg last:rounded-bl-lg hover:bg-white/5;
   }
+
+  .alert {
+    @apply rounded-md px-4 py-3;
+  }
 }
