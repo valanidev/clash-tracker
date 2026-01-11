@@ -12,7 +12,7 @@ const AccountPage = async () => {
   })
 
   return (
-    <main className="box p-4">
+    <main className="box">
       <h1 className="font-semibold">My Account</h1>
 
       <Separator />
@@ -26,24 +26,16 @@ const AccountPage = async () => {
 
       <Separator />
 
-      <div className="mt-4 flex w-full flex-col gap-2 md:flex-row">
+      <div className="mt-4 w-full">
         <LinkButton
           target="/tracker/new"
           text="Add a new village"
           icon={<Plus />}
-          className="md:w-1/2"
           type="success"
-        />
-        <LinkButton
-          target="/tracker/remove"
-          text="Remove a village"
-          icon={<Trash />}
-          className="md:w-1/2"
-          type="danger"
         />
       </div>
 
-      <div className="box mt-4 flex flex-col gap-4 p-4">
+      <div className="box mt-4 flex flex-col gap-4">
         <h1>Villages</h1>
         <VillagesViewer />
       </div>

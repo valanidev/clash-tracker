@@ -13,16 +13,16 @@ const ProfileUpdateButtons = () => {
       />
       <div className="flex w-full flex-col gap-2 md:flex-row">
         <LinkButton
-          text="Change Password"
-          icon={<Lock />}
-          className="md:w-1/2"
-          onClick={() => console.log('TODO change password toast')}
-        />
-        <LinkButton
           text="Change Email"
           icon={<AtSign />}
           className="md:w-1/2"
           onClick={() => console.log('TODO change email toast')}
+        />
+        <LinkButton
+          text="Change Password"
+          icon={<Lock />}
+          className="md:w-1/2"
+          onClick={() => console.log('TODO change password toast')}
         />
       </div>
     </div>

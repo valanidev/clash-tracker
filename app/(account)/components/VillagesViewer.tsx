@@ -2,7 +2,7 @@ import { UserData } from '@/types/clash'
 import { getVillage, getVillages } from '../actions'
 import Image from 'next/image'
 import LinkButton from './LinkButton'
-import { Eye } from 'lucide-react'
+import { Eye, Trash } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const VillageViewer = async () => {
@@ -31,7 +31,7 @@ const VillageViewer = async () => {
           (item) => item.id === townhallId,
         )?.levels[0]
         return (
-          <div key={index} className="box flex flex-col items-center gap-4 p-4">
+          <div key={index} className="box flex flex-col items-center gap-4">
             <h2 className="font-semibold">{data.username}</h2>
             <div className="flex h-50 w-50 items-center justify-center">
               <Image
@@ -44,7 +44,19 @@ const VillageViewer = async () => {
               />
             </div>
 
-            <LinkButton target={`/tracker/${tag}`} text="View" icon={<Eye />} />
+            <div className="flex gap-2">
+              <LinkButton
+                target={`/tracker/${tag}`}
+                text="View"
+                icon={<Eye />}
+              />
+              <LinkButton
+                target={`/tracker/delete/${tag}`}
+                text="Delete"
+                icon={<Trash />}
+                type="danger"
+              />
+            </div>
           </div>
         )
       })}

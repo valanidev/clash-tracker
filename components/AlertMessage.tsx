@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils'
 type AlertMessageProps = {
   type: 'error' | 'warning' | 'info' | 'success'
   message: string
+  className?: string
 }
 
 const typeStyles: Record<AlertMessageProps['type'], string> = {
@@ -12,8 +13,10 @@ const typeStyles: Record<AlertMessageProps['type'], string> = {
   success: 'bg-green-100 text-green-900',
 }
 
-const AlertMessage = ({ type, message }: AlertMessageProps) => {
-  return <div className={cn('alert', typeStyles[type])}>{message}</div>
+const AlertMessage = ({ type, message, className }: AlertMessageProps) => {
+  return (
+    <div className={cn('alert', typeStyles[type], className)}>{message}</div>
+  )
 }
 
 export default AlertMessage

@@ -18,7 +18,7 @@ const TrackerUserData = async ({
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-5">
       {/* Left Part */}
       <div className="col-span-5 flex flex-col gap-4 lg:col-span-1">
-        <div className="box flex flex-col items-center justify-center p-4 lg:aspect-square">
+        <div className="box flex flex-col items-center justify-center lg:aspect-square">
           <div className="flex aspect-square justify-center">
             <Image
               src={`/coc-images/1/${thLevel}.png`}
@@ -43,7 +43,7 @@ const TrackerUserData = async ({
       </div>
 
       {/* Right Part */}
-      <div className="box col-span-5 p-4 lg:col-span-4">
+      <div className="box col-span-5 lg:col-span-4">
         <TrackerItems items={data.items} />
       </div>
     </div>

@@ -133,18 +133,17 @@ export const addVillage = async (
   const user = await getCurrentUser({ redirectIfNotFound: true })
   const tag = clashData.tag
 
-  // Check if the user already owns this village
-  // const alreadyExists = await db
-  //   .select()
-  //   .from(VillageTable)
-  //   .where(and(eq(VillageTable.userId, user.id), eq(VillageTable.tag, tag)))
-  //   .limit(1)
-  // if (alreadyExists.length > 0) {
-  //   return {
-  //     success: false,
-  //     message: 'You already own this village',
-  //   }
-  // }
+  const alreadyExists = await db
+    .select()
+    .from(VillageTable)
+    .where(and(eq(VillageTable.userId, user.id), eq(VillageTable.tag, tag)))
+    .limit(1)
+  if (alreadyExists.length > 0) {
+    return {
+      success: false,
+      message: 'You already own this village',
+    }
+  }
 
   // If not, we can request the coc API to get required data
   const { data: playerApiData, error } = await getPlayerFromApi(tag)
@@ -182,6 +181,28 @@ export const addVillage = async (
   return {
     success: true,
     message: `Village ${tag} added successfully`,
+  }
+}
+
+export const removeVillage = async (tag: string): Promise<ActionResult> => {
+  const user = await getCurrentUser({ redirectIfNotFound: true })
+  tag = '#' + tag
+
+  const rows = await db
+    .delete(VillageTable)
+    .where(and(eq(VillageTable.userId, user.id), eq(VillageTable.tag, tag)))
+    .returning()
+
+  if (rows.length === 0) {
+    return {
+      success: false,
+      message: `Village ${tag} not found`,
+    }
+  }
+
+  return {
+    success: true,
+    message: `Village ${tag} deleted successfully`,
   }
 }
 
