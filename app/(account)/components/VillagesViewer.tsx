@@ -15,8 +15,8 @@ const VillageViewer = async () => {
   return (
     <div
       className={cn(
-        'flex flex-col gap-4',
-        villages.length > 1 && 'md:flex-row',
+        'grid gap-4',
+        villages.length > 1 && 'flex-wrap md:grid-cols-3 lg:grid-cols-4',
       )}
     >
       {villages.map(async (village, index) => {
@@ -26,14 +26,16 @@ const VillageViewer = async () => {
           return <p key={village.id}>Could not get the village data...</p>
 
         const data = villageData.data as UserData
-        const thLevel = data.items.homeArmy.find((item) => item.id === 1000001)
-          ?.levels[0]
+        const townhallId = 1000001
+        const thLevel = data.items.homeArmy.find(
+          (item) => item.id === townhallId,
+        )?.levels[0]
         return (
           <div key={index} className="box flex flex-col items-center gap-4 p-4">
             <h2 className="font-semibold">{data.username}</h2>
             <div className="flex h-50 w-50 items-center justify-center">
               <Image
-                src={`/coc-images/1/${thLevel}.png`}
+                src={`/coc-images/${townhallId}/${thLevel}.png`}
                 alt={`Townhall ${thLevel}`}
                 width={0}
                 height={0}

@@ -134,17 +134,17 @@ export const addVillage = async (
   const tag = clashData.tag
 
   // Check if the user already owns this village
-  const alreadyExists = await db
-    .select()
-    .from(VillageTable)
-    .where(and(eq(VillageTable.userId, user.id), eq(VillageTable.tag, tag)))
-    .limit(1)
-  if (alreadyExists.length > 0) {
-    return {
-      success: false,
-      message: 'You already own this village',
-    }
-  }
+  // const alreadyExists = await db
+  //   .select()
+  //   .from(VillageTable)
+  //   .where(and(eq(VillageTable.userId, user.id), eq(VillageTable.tag, tag)))
+  //   .limit(1)
+  // if (alreadyExists.length > 0) {
+  //   return {
+  //     success: false,
+  //     message: 'You already own this village',
+  //   }
+  // }
 
   // If not, we can request the coc API to get required data
   const { data: playerApiData, error } = await getPlayerFromApi(tag)
