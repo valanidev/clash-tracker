@@ -2,6 +2,8 @@ import { getCurrentUser } from '@/app/(auth)/core/currentUser'
 import LinkButton from '../components/LinkButton'
 import { Plus, Trash } from 'lucide-react'
 import VillagesViewer from '../components/VillagesViewer'
+import Separator from '../components/Separator'
+import ProfileUpdateButtons from '../components/ProfileUpdateButtons'
 
 const AccountPage = async () => {
   const user = await getCurrentUser({
@@ -11,11 +13,18 @@ const AccountPage = async () => {
 
   return (
     <main className="box p-4">
-      <h1 className="mb-4 border-b pb-4 font-semibold">My Account</h1>
+      <h1 className="font-semibold">My Account</h1>
+
+      <Separator />
+
       <h2>
         Logged in as <span className="font-semibold">{user.username}</span>{' '}
         <span className="text-sm">({user.email})</span>
       </h2>
+
+      <ProfileUpdateButtons />
+
+      <Separator />
 
       <div className="mt-4 flex w-full flex-col gap-2 md:flex-row">
         <LinkButton
