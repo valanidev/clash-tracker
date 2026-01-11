@@ -8,7 +8,6 @@ import { Field, FieldError, FieldGroup } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { signUp } from '../core/actions'
-import { redirect } from 'next/navigation'
 import { useState } from 'react'
 import AlertMessage from '@/components/AlertMessage'
 
@@ -30,8 +29,7 @@ const SignUpForm = () => {
 
   const onSubmit = async (data: SignUpFormData) => {
     const res = await signUp(data)
-    if (res == null) redirect('/')
-    else setError(res)
+    if (res != null) setError(res)
   }
 
   return (

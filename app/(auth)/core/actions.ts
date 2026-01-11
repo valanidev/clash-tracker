@@ -20,7 +20,7 @@ export const signIn = async (unsafeData: z.infer<typeof signInSchema>) => {
   })
 
   if (user == null || user.password == null || user.salt == null) {
-    return 'Unable to log you in'
+    return 'Invalid email or password'
   }
 
   const isCorrectPassword = await comparePasswords({
@@ -29,7 +29,7 @@ export const signIn = async (unsafeData: z.infer<typeof signInSchema>) => {
     salt: user.salt,
   })
 
-  if (!isCorrectPassword) return 'Unable to log you in'
+  if (!isCorrectPassword) return 'Invalid email or password'
 
   await createUserSession(user, await cookies())
 
@@ -38,7 +38,7 @@ export const signIn = async (unsafeData: z.infer<typeof signInSchema>) => {
 
 export const signUp = async (unsafeData: z.infer<typeof signUpSchema>) => {
   const { success, data } = signUpSchema.safeParse(unsafeData)
-  if (!success) return 'Unable to create the account'
+  if (!success) return 'Unable to create your account'
 
   const existingEmail = await db.query.UserTable.findFirst({
     where: eq(UserTable.email, data.email),
@@ -68,8 +68,7 @@ export const signUp = async (unsafeData: z.infer<typeof signUpSchema>) => {
       })
       .returning({ id: UserTable.id, role: UserTable.role })
 
-    if (user == null)
-      return 'There was an error while creating your account... Try again.'
+    if (user == null) return 'Unable to create your account'
 
     await createUserSession(user, await cookies())
   } catch {
@@ -81,5 +80,4 @@ export const signUp = async (unsafeData: z.infer<typeof signUpSchema>) => {
 
 export const signOut = async () => {
   await removeUserFromSession(await cookies())
-  // redirect('/')
 }

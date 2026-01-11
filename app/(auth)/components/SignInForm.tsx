@@ -27,8 +27,6 @@ const SignInForm = () => {
 
   const onSubmit = async (data: SignInFormData) => {
     const res = await signIn(data)
-    // if (res == null) redirect('/')
-    // else setError(res)
     if (res != null) setError(res)
   }
 
