@@ -26,15 +26,16 @@ export const passwordSchema = z
     message:
       'Password must contain at least one special character (e.g., !@#$%)',
   })
+export const confirmPasswordSchema = z
+  .string()
+  .nonempty({ message: 'Password confirmation is required' })
 
 export const signUpSchema = z
   .object({
     username: usernameSchema,
     email: emailSchema,
     password: passwordSchema,
-    confirmPassword: z
-      .string()
-      .nonempty({ message: 'Password confirmation is required' }),
+    confirmPassword: confirmPasswordSchema,
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Passwords do not match',

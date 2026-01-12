@@ -1,29 +1,14 @@
-'use client'
-
-import { AtSign, Lock, User } from 'lucide-react'
-import LinkButton from './LinkButton'
+import UsernameDialog from './dialogs/UsernameDialog'
+import EmailDialog from './dialogs/EmailDialog'
+import PasswordDialog from './dialogs/PasswordDialog'
 
 const ProfileUpdateButtons = () => {
   return (
     <div className="mt-4 space-y-2">
-      <LinkButton
-        text="Change Username"
-        icon={<User />}
-        onClick={() => console.log('TODO change username toast')}
-      />
+      <UsernameDialog />
       <div className="flex w-full flex-col gap-2 md:flex-row">
-        <LinkButton
-          text="Change Email"
-          icon={<AtSign />}
-          className="md:w-1/2"
-          onClick={() => console.log('TODO change email toast')}
-        />
-        <LinkButton
-          text="Change Password"
-          icon={<Lock />}
-          className="md:w-1/2"
-          onClick={() => console.log('TODO change password toast')}
-        />
+        <EmailDialog className="md:w-1/2" />
+        <PasswordDialog className="md:w-1/2" />
       </div>
     </div>
   )

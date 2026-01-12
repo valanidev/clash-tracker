@@ -11,13 +11,48 @@ import {
   passwordSchema,
   usernameSchema,
 } from '../(auth)/schemas/authSchema'
-import { generateSalt, hashPassword } from '../(auth)/core/utils'
+import {
+  comparePasswords,
+  generateSalt,
+  hashPassword,
+} from '../(auth)/core/utils'
 
 // Actions for account management
+export const isPasswordValid = async (testPassword: string) => {
+  const user = await getCurrentUser({ redirectIfNotFound: true })
+
+  const data = await db.query.UserTable.findFirst({
+    columns: { password: true, salt: true },
+    where: eq(UserTable.id, user.id),
+  })
+
+  if (!data || data.password == null || data.salt == null) {
+    return false
+  }
+
+  const isCorrectPassword = await comparePasswords({
+    hashedPassword: data.password,
+    password: testPassword,
+    salt: data.salt,
+  })
+
+  return isCorrectPassword
+}
+
 export const setUsername = async (
   newUsername: string,
 ): Promise<ActionResult> => {
-  const user = await getCurrentUser({ redirectIfNotFound: true })
+  const user = await getCurrentUser({
+    withFullUser: true,
+    redirectIfNotFound: true,
+  })
+
+  if (user.username === newUsername) {
+    return {
+      success: false,
+      message: 'The new username is the same as the current one.',
+    }
+  }
 
   const parsedUsername = usernameSchema.safeParse(newUsername)
   if (!parsedUsername.success) {
@@ -50,7 +85,17 @@ export const setUsername = async (
 }
 
 export const setEmail = async (newEmail: string): Promise<ActionResult> => {
-  const user = await getCurrentUser({ redirectIfNotFound: true })
+  const user = await getCurrentUser({
+    withFullUser: true,
+    redirectIfNotFound: true,
+  })
+
+  if (user.email === newEmail) {
+    return {
+      success: false,
+      message: 'The new email is the same as the current one.',
+    }
+  }
 
   const parsedEmail = emailSchema.safeParse(newEmail)
   if (!parsedEmail.success) {
@@ -84,7 +129,6 @@ export const setEmail = async (newEmail: string): Promise<ActionResult> => {
 
 export const setPassword = async (
   newPassword: string,
-  newPasswordConfirm: string,
 ): Promise<ActionResult> => {
   const user = await getCurrentUser({ redirectIfNotFound: true })
 
@@ -95,12 +139,6 @@ export const setPassword = async (
       message: JSON.parse(parsedPassword.error.message)[0].message,
     }
   }
-
-  if (newPassword != newPasswordConfirm)
-    return {
-      success: false,
-      message: 'Passwords do not match',
-    }
 
   try {
     const salt = generateSalt()
