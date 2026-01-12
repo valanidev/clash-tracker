@@ -53,7 +53,7 @@ const EmailDialog = ({ className }: { className?: string }) => {
         <LinkButton
           text="Change Email"
           icon={<AtSign />}
-          type="default"
+          style="default"
           className={className}
         />
       </DialogTrigger>

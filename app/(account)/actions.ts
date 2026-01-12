@@ -165,6 +165,7 @@ export const setPassword = async (
 }
 
 // Actions for village management
+
 export const addVillage = async (
   clashData: ClashData,
 ): Promise<ActionResult> => {

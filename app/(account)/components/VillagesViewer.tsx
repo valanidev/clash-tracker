@@ -54,7 +54,7 @@ const VillageViewer = async () => {
                 target={`/tracker/delete/${tag}`}
                 text="Delete"
                 icon={<Trash />}
-                type="danger"
+                style="danger"
               />
             </div>
           </div>

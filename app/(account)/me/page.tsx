@@ -1,10 +1,9 @@
 import { getCurrentUser } from '@/app/(auth)/core/currentUser'
 import LinkButton from '../components/LinkButton'
-import { Plus, X } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import VillagesViewer from '../components/VillagesViewer'
 import Separator from '../components/Separator'
 import ProfileUpdateButtons from '../components/ProfileUpdateButtons'
-import ChangeDataForm from '../components/ChangeDataForm'
 
 const AccountPage = async () => {
   const user = await getCurrentUser({
@@ -32,7 +31,7 @@ const AccountPage = async () => {
           target="/tracker/new"
           text="Add a new village"
           icon={<Plus />}
-          type="success"
+          style="success"
         />
       </div>
 

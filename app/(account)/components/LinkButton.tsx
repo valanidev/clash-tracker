@@ -7,7 +7,7 @@ type LinkButtonProps = {
   text: string
   target?: string
   icon?: ReactNode
-  type?: 'default' | 'danger' | 'success'
+  style?: 'default' | 'danger' | 'success'
   className?: string
   onClick?: () => void
 }
@@ -16,21 +16,23 @@ const LinkButton = ({
   target,
   text,
   icon,
-  type = 'default',
+  style = 'default',
   className,
   onClick,
-}: LinkButtonProps) => {
+  ...props
+}: React.ComponentProps<'a'> & LinkButtonProps) => {
   return (
     <a
       href={target}
       className={cn(
         'alert flex cursor-default justify-center bg-teal-600 font-semibold text-nowrap transition-colors duration-100',
-        type === 'default' && 'bg-blue-500 hover:bg-blue-600',
-        type === 'danger' && 'bg-red-500 hover:bg-red-600',
-        type === 'success' && 'bg-green-600 hover:bg-green-700',
+        style === 'default' && 'bg-blue-500 hover:bg-blue-600',
+        style === 'danger' && 'bg-red-500 hover:bg-red-600',
+        style === 'success' && 'bg-green-600 hover:bg-green-700',
         className,
       )}
       onClick={onClick}
+      {...props}
     >
       {icon && <span className="mr-2">{icon}</span>} {text}
     </a>

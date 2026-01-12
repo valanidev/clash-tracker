@@ -51,7 +51,7 @@ const UsernameDialog = ({ className }: { className?: string }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <LinkButton text="Change Username" icon={<User />} type="default" />
+        <LinkButton text="Change Username" icon={<User />} style="default" />
       </DialogTrigger>
       <DialogContent className="sm:max-w-106.25">
         <form

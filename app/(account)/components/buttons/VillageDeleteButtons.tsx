@@ -26,7 +26,7 @@ const VillageDeleteButtons = ({ tag }: { tag: string }) => {
       <div className="grid gap-2 md:grid-cols-2">
         <LinkButton
           text="Delete"
-          type="danger"
+          style="danger"
           icon={<Trash />}
           onClick={handleDelete}
         />
