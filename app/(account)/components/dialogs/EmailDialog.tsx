@@ -57,7 +57,7 @@ const EmailDialog = ({ className }: { className?: string }) => {
           className={className}
         />
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-106.25">
         <form className={'space-y-4'} onSubmit={form.handleSubmit(onSubmit)}>
           <DialogHeader>
             <DialogTitle>Edit Email</DialogTitle>

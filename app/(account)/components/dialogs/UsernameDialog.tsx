@@ -53,7 +53,7 @@ const UsernameDialog = ({ className }: { className?: string }) => {
       <DialogTrigger asChild>
         <LinkButton text="Change Username" icon={<User />} type="default" />
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-106.25">
         <form
           className={cn(className, 'space-y-4')}
           onSubmit={form.handleSubmit(onSubmit)}

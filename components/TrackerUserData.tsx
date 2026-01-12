@@ -21,7 +21,7 @@ const TrackerUserData = async ({
         <div className="box flex flex-col items-center justify-center lg:aspect-square">
           <div className="flex aspect-square justify-center">
             <Image
-              src={`/coc-images/1/${thLevel}.png`}
+              src={`/coc-images/1000001/${thLevel}.png`}
               alt="Town Hall"
               width={150}
               height={150}
