@@ -25,8 +25,7 @@ const LinkButton = ({
     <a
       href={target}
       className={cn(
-        'alert flex cursor-default justify-center bg-teal-600 font-semibold text-nowrap transition-colors duration-100',
-        style === 'default' && 'bg-blue-500 hover:bg-blue-600',
+        'alert flex cursor-default justify-center bg-blue-500 font-semibold text-nowrap transition-colors duration-100 hover:bg-blue-600',
         style === 'danger' && 'bg-red-500 hover:bg-red-600',
         style === 'success' && 'bg-green-600 hover:bg-green-700',
         className,

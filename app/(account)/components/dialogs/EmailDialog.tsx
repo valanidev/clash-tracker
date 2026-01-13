@@ -38,7 +38,7 @@ const EmailDialog = ({ className }: { className?: string }) => {
     defaultValues: {
       newEmail: '',
     },
-    mode: 'all',
+    mode: 'onSubmit',
   })
 
   const onSubmit = async (data: ChangeEmailFormData) => {

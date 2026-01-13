@@ -60,7 +60,7 @@ const EmailDialog = ({ className }: { className?: string }) => {
       newPassword: '',
       newPasswordConfirm: '',
     },
-    mode: 'all',
+    mode: 'onSubmit',
   })
 
   const onSubmit = async (data: ChangePasswordFormData) => {

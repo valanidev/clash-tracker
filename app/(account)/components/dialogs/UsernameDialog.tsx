@@ -39,7 +39,7 @@ const UsernameDialog = ({ className }: { className?: string }) => {
     defaultValues: {
       newUsername: '',
     },
-    mode: 'all',
+    mode: 'onSubmit',
   })
 
   const onSubmit = async (data: ChangeUsernameFormData) => {
