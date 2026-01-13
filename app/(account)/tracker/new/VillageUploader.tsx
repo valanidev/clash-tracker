@@ -8,25 +8,16 @@ import { addVillage } from '../../actions'
 import { ActionResult } from '@/types/utils'
 import AlertMessage from '@/components/AlertMessage'
 import ClashDataUploadView from './ClashDataUploadView'
-import { ClashData } from '@/types/clash'
+import { ClashData, clashDataSchema } from '../../schemas/clashSchema'
 
 const isDataValid = (data: string) => {
   if (!data) return false
   if (data.trim() === '') return false
-  let jsonData
   try {
-    jsonData = JSON.parse(data)
+    const json = JSON.parse(data)
+    const parsed = clashDataSchema.safeParse(json)
+    if (!parsed.success) return false
   } catch {
-    return false
-  }
-
-  if (jsonData.tag === undefined || jsonData.timestamp === undefined) {
-    return false
-  }
-  if (jsonData.buildings === undefined || jsonData.traps === undefined) {
-    return false
-  }
-  if (jsonData.buildings2 === undefined || jsonData.traps2 === undefined) {
     return false
   }
 
@@ -57,7 +48,6 @@ const VillageUploader = () => {
       }
 
       const parsed = JSON.parse(text) as ClashData
-      // TODO: Perform more verifications about the pasted JSON
       setData({ success: true, data: parsed, message: 'Success' })
     } catch (e) {
       setData({ success: false, message: String(e) })
