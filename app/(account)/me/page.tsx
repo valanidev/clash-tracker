@@ -2,8 +2,8 @@ import { getCurrentUser } from '@/app/(auth)/core/currentUser'
 import LinkButton from '../components/LinkButton'
 import { Plus } from 'lucide-react'
 import VillagesViewer from '../components/VillagesViewer'
-import Separator from '../components/Separator'
 import ProfileUpdateButtons from '../components/ProfileUpdateButtons'
+import { Separator } from '@/components/ui/separator'
 
 const AccountPage = async () => {
   const user = await getCurrentUser({

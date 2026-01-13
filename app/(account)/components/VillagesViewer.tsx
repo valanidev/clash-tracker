@@ -35,7 +35,7 @@ const VillageViewer = async () => {
             <h2 className="font-semibold">{data.username}</h2>
             <div className="flex h-50 w-50 items-center justify-center">
               <Image
-                src={`/coc-images/${townhallId}/${thLevel}.png`}
+                src={`/assets/coc-images/${townhallId}/${thLevel}.png`}
                 alt={`Townhall ${thLevel}`}
                 width={0}
                 height={0}
