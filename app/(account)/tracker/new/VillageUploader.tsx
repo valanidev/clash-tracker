@@ -3,10 +3,12 @@
 import { useState } from 'react'
 import LinkButton from '../../components/LinkButton'
 
-import { Clipboard } from 'lucide-react'
+import { Clipboard, HousePlus } from 'lucide-react'
 import { addVillage } from '../../actions'
 import { ActionResult } from '@/types/utils'
 import AlertMessage from '@/components/AlertMessage'
+import ClashDataUploadView from './ClashDataUploadView'
+import { ClashData } from '@/types/clash'
 
 const isDataValid = (data: string) => {
   if (!data) return false
@@ -32,7 +34,7 @@ const isDataValid = (data: string) => {
 }
 
 const VillageUploader = () => {
-  const [data, setData] = useState<ActionResult | null>()
+  const [data, setData] = useState<ActionResult<ClashData> | null>()
   const [uploadStatus, setUploadStatus] = useState<ActionResult | null>(null)
 
   const handlePaste = async () => {
@@ -54,7 +56,8 @@ const VillageUploader = () => {
         return
       }
 
-      const parsed = JSON.parse(text)
+      const parsed = JSON.parse(text) as ClashData
+      // TODO: Perform more verifications about the pasted JSON
       setData({ success: true, data: parsed, message: 'Success' })
     } catch (e) {
       setData({ success: false, message: String(e) })
@@ -87,9 +90,15 @@ const VillageUploader = () => {
         </p>
       </div>
 
-      {data && data.success && (
-        <div>
-          <LinkButton text="Upload" className="mt-4" onClick={handleUpload} />
+      {data && data.success && data.data && (
+        <div className="mt-4">
+          <ClashDataUploadView clashData={data.data} />
+          <LinkButton
+            text="Add Village"
+            icon={<HousePlus />}
+            className="mt-4"
+            onClick={handleUpload}
+          />
           {uploadStatus && (
             <AlertMessage
               message={uploadStatus.message ? uploadStatus.message : ''}
