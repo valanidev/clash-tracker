@@ -8,6 +8,7 @@ const clashItemSchema = z.object({
   timer: z.number().optional(),
   gear_up: z.number().optional(),
   helper_cooldown: z.number().optional(),
+  helper_recurrent: z.boolean().optional(),
 })
 
 export const clashDataSchema = z.object({

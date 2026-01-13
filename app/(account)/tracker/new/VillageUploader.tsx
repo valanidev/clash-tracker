@@ -29,6 +29,7 @@ const VillageUploader = () => {
   const [uploadStatus, setUploadStatus] = useState<ActionResult | null>(null)
 
   const handlePaste = async () => {
+    setUploadStatus(null)
     setData(null)
     try {
       const text = await navigator.clipboard.readText()
@@ -48,7 +49,11 @@ const VillageUploader = () => {
       }
 
       const parsed = JSON.parse(text) as ClashData
-      setData({ success: true, data: parsed, message: 'Success' })
+      setData({
+        success: true,
+        data: parsed,
+        message: 'Successfully loaded village export',
+      })
     } catch (e) {
       setData({ success: false, message: String(e) })
     }
